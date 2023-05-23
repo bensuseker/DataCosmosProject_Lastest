@@ -1,0 +1,27 @@
+package com.datacosmos.datacosmosproject.service;
+
+public class UserService {
+
+
+
+}
+
+
+
+
+
+
+
+        /* new User(signupDto.getUsername(), signupDto.getEmail(), encyryptedpassword);
+        userRepo.save(user); */
+
+
+    /*private String hashPassword(String password) throws NoSuchAlgorithmException {
+        MessageDigest md = MessageDigest.getInstance("MD5");
+        md.update(password.getBytes());
+        byte[] digest = md.digest();
+       String hash = Dat
+                .printHexBinary()
+        return password; */
+
+
