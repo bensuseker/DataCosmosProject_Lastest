@@ -73,7 +73,12 @@ public class CrawlerService {
 
             // Check if there are no results
             // This div will help us figure out if datasets for our keyword exist
-            WebElement h2 = wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#site-content > div.sc-dQelHR.iMCzUG > div > div > div > div.sc-esSOno.cxfNYz > h2")));
+            // The div before h2 seems to be able to have multiple classes, I have seen the following selectors:
+            // 1) #site-content > div.sc-dQelHR.iMCzUG > div > div > div > div.sc-dA-dxID.MpNbF > h2
+            // 2) #site-content > div.sc-dQelHR.iMCzUG > div > div > div > div.sc-esSOno.cxfNYz > h2
+            // 3) #site-content > div.sc-dQelHR.iMCzUG > div > div > div > div.sc-btBrRg.cdVjIX > h2
+            // Solution: I will simply not specify the class for the last div, since it keeps changing and messing with our wait condition.
+            WebElement h2 = wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#site-content > div.sc-dQelHR.iMCzUG > div > div > div > div > h2")));
             if (h2.getText().equals("Datasets")) {
                 System.out.println("crawlKaggle: No results found for your search query.");
                 return datasetList;
