@@ -1,5 +1,6 @@
 package com.datacosmos.datacosmosproject.repository;
 
+import com.datacosmos.datacosmosproject.entities.Datasets;
 import com.datacosmos.datacosmosproject.entities.Favorites;
 import com.datacosmos.datacosmosproject.entities.User;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -12,8 +13,6 @@ import java.util.List;
 public interface favoritesRepository extends JpaRepository<Favorites, Integer> {
 
 
-    List<Favorites> findAllByUserId(User user);
-
-    List<Favorites> findAllByUserOrderByCreatedDateDesc(User user);
+    List<Favorites> findAllByUserIdOrderByCreatedDateDesc(Long userId);
 
 }

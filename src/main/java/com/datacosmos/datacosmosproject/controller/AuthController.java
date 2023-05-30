@@ -4,6 +4,7 @@ import com.datacosmos.datacosmosproject.Dto.UserDto;
 import com.datacosmos.datacosmosproject.entities.User;
 import com.datacosmos.datacosmosproject.service.IUserService;
 import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -17,6 +18,7 @@ public class AuthController {
 
     private final IUserService userService;
 
+    @Autowired
     public AuthController(IUserService userService) {
         this.userService = userService;
     }
@@ -33,7 +35,7 @@ public class AuthController {
         // create model object to store form data
         UserDto user = new UserDto();
         model.addAttribute("user", user);
-        return "register";
+        return "register.html";
     }
 
     // handler method to handle user registration form submit request
@@ -50,7 +52,7 @@ public class AuthController {
 
         if(result.hasErrors()){
             model.addAttribute("user", userDto);
-            return "/register";
+            return "register.html";
         }
 
         userService.saveUser(userDto);

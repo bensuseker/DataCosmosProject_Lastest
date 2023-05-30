@@ -1,6 +1,7 @@
 package com.datacosmos.datacosmosproject.entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
 import java.util.Date;
@@ -14,27 +15,29 @@ public class Favorites {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @OneToOne(targetEntity = User.class, fetch = FetchType.EAGER)
-    @JoinColumn(nullable = false, name = "user_id")
-    private User user;
+    @Column(name = "user_id")
+    private @NotBlank Long userId;
+
+    @Column(name = "dataset_id")
+    private @NotBlank Long datasetId;
+
 
     @Column(name = "created_date")
     private Date createdDate;
 
-    @ManyToOne
-    @JoinColumn(name = "dataset_id")
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "dataset_id", referencedColumnName = "id", insertable = false, updatable = false)
     private Datasets datasets;
 
-    public Favorites(){
-    }
-
-    public Favorites(User user, Datasets datasets) {
-        this.user = user;
-        this.datasets = datasets;
+    public Favorites(Long userId, Long datasetId) {
+        this.datasetId = datasetId;
+        this.userId = userId;
         this.createdDate = new Date();
     }
 
+    public Favorites() {
 
+    }
 
     public Integer getId() {
         return id;
@@ -44,20 +47,20 @@ public class Favorites {
         this.id = id;
     }
 
-    public User getUser() {
-        return user;
+    public Long getUserId() {
+        return userId;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
-    public Date getCreatedDate() {
-        return createdDate;
+    public Long getDatasetId() {
+        return datasetId;
     }
 
-    public void setCreatedDate(Date createdDate) {
-        this.createdDate = createdDate;
+    public void setDatasetId(Long datasetId) {
+        this.datasetId = datasetId;
     }
 
     public Datasets getDatasets() {

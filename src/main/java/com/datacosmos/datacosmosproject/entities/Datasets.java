@@ -15,15 +15,13 @@ public class Datasets {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
-
+    private Long id;
 
     @Column(name = "Dataset_name", nullable = false)
     private String Dataset_name;
 
     @Column(name = "keyword", nullable = false)
     private String keyword;
-
 
     @Column(name = "url", nullable = false)
     private String url;
@@ -34,7 +32,7 @@ public class Datasets {
     @OneToMany
     private List<Rating> ratings;
 
-    public Datasets(Integer id, String dataset_name, String keyword, String url, Double ratingAverage, List<Rating> ratings) {
+    public Datasets(Long id, String dataset_name, String keyword, String url, Double ratingAverage, List<Rating> ratings) {
         this.id = id;
         this.Dataset_name = dataset_name;
         this.keyword = keyword;
@@ -47,11 +45,11 @@ public class Datasets {
 
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
