@@ -15,4 +15,6 @@ public interface favoritesRepository extends JpaRepository<Favorites, Integer> {
 
     List<Favorites> findAllByUserIdOrderByCreatedDateDesc(Long userId);
 
+
+
 }
