@@ -1,10 +1,11 @@
 package com.datacosmos.datacosmosproject.Dto;
 
+import com.datacosmos.datacosmosproject.entities.Datasets;
 import jakarta.annotation.Nullable;
 
 public class DatasetDto {
 
-    private @Nullable Integer id;
+    private Integer id;
 
     private @Nullable String Dataset_name;
 
@@ -13,9 +14,22 @@ public class DatasetDto {
 
     private @Nullable String keyword;
 
-    public DatasetDto(){
+    public DatasetDto(@Nullable Integer id, @Nullable String dataset_name, String url, Double ratingAverage, String keyword) {
+        this.id = id;
+        this.Dataset_name = dataset_name;
+        this.url = url;
+        this.ratingAverage = ratingAverage;
+        this.keyword = keyword;
+    }
+
+    public DatasetDto(Datasets datasets){
+        this.setId(Math.toIntExact(datasets.getId()));
+    }
+
+    public DatasetDto() {
 
     }
+
 
     public Integer getId() {
         return id;

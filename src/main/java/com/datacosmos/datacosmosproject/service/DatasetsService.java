@@ -43,4 +43,10 @@ public class DatasetsService {
         return datasetDtos;
 
     }
+
+    public static DatasetDto getDtoFromDataset(Datasets datasets) {
+        DatasetDto datasetDto = new DatasetDto(datasets);
+        return datasetDto;
+    }
+
 }

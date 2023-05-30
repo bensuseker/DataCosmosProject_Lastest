@@ -1,5 +1,6 @@
 package com.datacosmos.datacosmosproject.entities;
 
+import com.datacosmos.datacosmosproject.Dto.DatasetDto;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -32,12 +33,12 @@ public class Datasets {
     @OneToMany
     private List<Rating> ratings;
 
-    public Datasets(Long id, String dataset_name, String keyword, String url, Double ratingAverage, List<Rating> ratings) {
+    public Datasets(Long id, String dataset_name, String keyword, String url, Double ratingAverage, List<Rating> ratings, DatasetDto datasetDto) {
         this.id = id;
-        this.Dataset_name = dataset_name;
+        this.Dataset_name = datasetDto.getDataset_name();
         this.keyword = keyword;
-        this.url = url;
-        this.ratingAverage = ratingAverage;
+        this.url = datasetDto.getUrl();
+        this.ratingAverage = datasetDto.getRatingAverage();
         this.ratings = ratings;
     }
 

@@ -17,6 +17,8 @@ public class FavoritesService {
     public FavoritesService(favoritesRepository favoritesRepo) {
         this.favoritesRepo = favoritesRepo;
     }
+
+    //create wishlist
     public void createFavorites(Favorites favorites) {
         favoritesRepo.save(favorites);
     }

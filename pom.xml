@@ -108,6 +108,16 @@
             <artifactId>selenium-java</artifactId>
             <version>4.9.1</version>
         </dependency>
+        <dependency>
+            <groupId>com.firework.service</groupId>
+            <artifactId>authentication</artifactId>
+            <version>6.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.firework.service</groupId>
+            <artifactId>authentication</artifactId>
+            <version>6.0.0</version>
+        </dependency>
 
     </dependencies>
 
