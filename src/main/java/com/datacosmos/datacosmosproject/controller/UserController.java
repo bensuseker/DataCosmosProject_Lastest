@@ -1,16 +1,40 @@
 package com.datacosmos.datacosmosproject.controller;
 
-import lombok.RequiredArgsConstructor;
+import com.datacosmos.datacosmosproject.Dto.UserDto;
+import com.datacosmos.datacosmosproject.service.IUserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@RequiredArgsConstructor
+import java.util.List;
+
+//@RequiredArgsConstructor
 @RestController
 @RequestMapping("/users")
 public class UserController {
 
+    private final IUserService userService;
 
+    @Autowired
+    public UserController(IUserService userService) {
+        this.userService = userService;
+    }
+    @GetMapping
+    public List<UserDto> listUsers() {
+        // Retrieve the authentication object from the security context
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        System.out.println("Authentication object: " + authentication);
+        // Retrieve the authorization token from the authentication object
+        String authToken = (String) authentication.getCredentials();
 
+        // Print out the authorization token
+        System.out.println("Authorization Token: " + authToken);
+
+        return userService.findAllUsers();
+    }
 
     /*@PostMapping
     public ResponseEntity<Void> createUser(@RequestBody User newUser) {
