@@ -26,27 +26,33 @@ public class SpringSecurity {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-//        http.csrf().disable()
-//                .authorizeHttpRequests((authorize) ->
-//                        authorize.requestMatchers("/register/**").permitAll()
-//                                .requestMatchers("/index").permitAll()
+        http
+                .csrf()
+                .disable()
+                .authorizeHttpRequests((authorize) ->
+                        authorize.requestMatchers("/register/**").permitAll()
+                                .requestMatchers("/index/**").permitAll()
+                                .requestMatchers("/users/**").authenticated()
+                                .requestMatchers("/crawl/**").authenticated()
+                                .requestMatchers("/favorites/**").authenticated()
+                                .requestMatchers("/ratings/**").authenticated()
 //                                .requestMatchers("/users").hasRole("ADMIN")
-//                ).formLogin(
-//                        form -> form
-//                                .loginPage("/login")
-//                                .loginProcessingUrl("/login")
-//                                .defaultSuccessUrl("/users")
-//                                .permitAll()
-//                ).logout(
-//                        logout -> logout
-//                                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-//                                .permitAll()
-//                );
+                ).formLogin(
+                        form -> form
+                                .loginPage("/login")
+                                .loginProcessingUrl("/login")
+                                .defaultSuccessUrl("/users")
+                                .permitAll()
+                ).logout(
+                        logout -> logout
+                                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                                .permitAll()
+                );
 
         // Use this to temporarily disable security
-        http.csrf().disable()
-                .authorizeRequests()
-                .anyRequest().permitAll();
+//        http.csrf().disable()
+//                .authorizeRequests()
+//                .anyRequest().permitAll();
 
         return http.build();
     }
