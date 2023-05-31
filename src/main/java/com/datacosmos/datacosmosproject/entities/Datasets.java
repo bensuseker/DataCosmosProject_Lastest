@@ -30,16 +30,16 @@ public class Datasets {
     @Column(name = "ratingAvarage", nullable = false)
     private Double ratingAverage;
 
-    @OneToMany
-    private List<Rating> ratings;
+    @Column(nullable = false)
+    private int rating;
 
-    public Datasets(Long id, String dataset_name, String keyword, String url, Double ratingAverage, List<Rating> ratings, DatasetDto datasetDto) {
+    public Datasets(Long id, String dataset_name, String keyword, String url, Double ratingAverage, int rating) {
         this.id = id;
-        this.Dataset_name = datasetDto.getDataset_name();
+        this.Dataset_name = dataset_name;
         this.keyword = keyword;
-        this.url = datasetDto.getUrl();
-        this.ratingAverage = datasetDto.getRatingAverage();
-        this.ratings = ratings;
+        this.url = url;
+        this.ratingAverage = ratingAverage;
+        this.rating = rating;
     }
 
     public Datasets() {
@@ -86,11 +86,18 @@ public class Datasets {
         this.ratingAverage = ratingAverage;
     }
 
-    public List<Rating> getRatings() {
-        return ratings;
+    public int getRating() {
+        return rating;
     }
 
-    public void setRatings(List<Rating> ratings) {
-        this.ratings = ratings;
+    public void setRating(int rating) {
+        this.rating = rating;
+    }
+
+    public void rating(int stars) {
+        if (stars < 1 || stars > 5) {
+            throw new IllegalArgumentException("Rating should be between 1 and 5 stars.");
+        }
+        this.rating = stars;
     }
 }

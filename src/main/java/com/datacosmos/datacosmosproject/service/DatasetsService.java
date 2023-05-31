@@ -3,18 +3,22 @@ package com.datacosmos.datacosmosproject.service;
 import com.datacosmos.datacosmosproject.Dto.DatasetDto;
 import com.datacosmos.datacosmosproject.entities.Datasets;
 import com.datacosmos.datacosmosproject.entities.Keyword;
+import com.datacosmos.datacosmosproject.entities.User;
 import com.datacosmos.datacosmosproject.repository.datasetsRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class DatasetsService {
 
     @Autowired
     datasetsRepository datasetsRepo;
+
 
     public void createDataset(DatasetDto datasetDto, Keyword keyword) {
         Datasets datasets = new Datasets();
@@ -48,5 +52,6 @@ public class DatasetsService {
         DatasetDto datasetDto = new DatasetDto(datasets);
         return datasetDto;
     }
+
 
 }

@@ -5,7 +5,6 @@ package com.datacosmos.datacosmosproject.controller;
 import com.datacosmos.datacosmosproject.Dto.DatasetDto;
 import com.datacosmos.datacosmosproject.entities.Datasets;
 import com.datacosmos.datacosmosproject.entities.Favorites;
-import com.datacosmos.datacosmosproject.entities.Rating;
 import com.datacosmos.datacosmosproject.entities.User;
 import com.datacosmos.datacosmosproject.response.ApiResponse;
 import com.datacosmos.datacosmosproject.service.AuthenticationService;

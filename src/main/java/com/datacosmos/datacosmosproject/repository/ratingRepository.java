@@ -1,4 +1,4 @@
-package com.datacosmos.datacosmosproject.repository;
+/*package com.datacosmos.datacosmosproject.repository;
 import com.datacosmos.datacosmosproject.entities.Rating;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -14,3 +14,5 @@ public interface ratingRepository extends JpaRepository<Rating, Long> {
     //...
 
 }
+
+*/
