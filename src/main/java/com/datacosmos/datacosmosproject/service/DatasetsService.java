@@ -2,8 +2,6 @@ package com.datacosmos.datacosmosproject.service;
 
 import com.datacosmos.datacosmosproject.Dto.DatasetDto;
 import com.datacosmos.datacosmosproject.entities.Datasets;
-import com.datacosmos.datacosmosproject.entities.Keyword;
-import com.datacosmos.datacosmosproject.entities.User;
 import com.datacosmos.datacosmosproject.repository.datasetsRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class DatasetsService {
@@ -20,12 +17,13 @@ public class DatasetsService {
     datasetsRepository datasetsRepo;
 
 
-    public void createDataset(DatasetDto datasetDto, Keyword keyword) {
-        Datasets datasets = new Datasets();
-        datasets.setDataset_name(datasetDto.getDataset_name());
-        datasets.setKeyword(datasetDto.getKeyword());
-        datasets.setUrl(datasetDto.getUrl());
-        datasets.setRatingAverage(datasetDto.getRatingAverage());
+    public Datasets createDataset(DatasetDto datasetDto) {
+        Datasets dataset = new Datasets();
+        dataset.setDataset_name(datasetDto.getDataset_name());
+        dataset.setKeyword(datasetDto.getKeyword());
+        dataset.setUrl(datasetDto.getUrl());
+        dataset.setRatingAverage(datasetDto.getRatingAverage());
+        return datasetsRepo.save(dataset);
     }
 
     public DatasetDto getDatasetDto(Datasets datasets) {
@@ -53,5 +51,8 @@ public class DatasetsService {
         return datasetDto;
     }
 
+//    public void calculateRatingsAverage() {
+//        datasetsRepo.calculateAverageRating()
+//    }
 
 }

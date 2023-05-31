@@ -1,7 +1,7 @@
 package com.datacosmos.datacosmosproject.entities;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 import java.util.Date;
@@ -16,10 +16,10 @@ public class Favorites {
     private Integer id;
 
     @Column(name = "user_id")
-    private @NotBlank Long userId;
+    private @NotNull Long userId;
 
     @Column(name = "dataset_id")
-    private @NotBlank Long datasetId;
+    private @NotNull Long datasetId;
 
 
     @Column(name = "created_date")

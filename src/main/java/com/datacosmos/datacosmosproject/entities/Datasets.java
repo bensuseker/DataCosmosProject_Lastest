@@ -27,10 +27,10 @@ public class Datasets {
     @Column(name = "url", nullable = false)
     private String url;
 
-    @Column(name = "ratingAvarage", nullable = false)
+    @Column(name = "ratingAverage")
     private Double ratingAverage;
 
-    @Column(nullable = false)
+    @Column(name = "rating")
     private int rating;
 
     public Datasets(Long id, String dataset_name, String keyword, String url, Double ratingAverage, int rating) {

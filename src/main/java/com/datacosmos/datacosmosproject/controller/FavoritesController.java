@@ -10,9 +10,13 @@ import com.datacosmos.datacosmosproject.response.ApiResponse;
 import com.datacosmos.datacosmosproject.service.AuthenticationService;
 import com.datacosmos.datacosmosproject.service.DatasetsService;
 import com.datacosmos.datacosmosproject.service.FavoritesService;
+import com.datacosmos.datacosmosproject.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import javax.xml.crypto.Data;
@@ -30,6 +34,12 @@ public class FavoritesController {
     @Autowired
     private AuthenticationService authenticationService;
 
+    @Autowired
+    private IUserService userService;
+
+    @Autowired
+    private DatasetsService datasetsService;
+
     @GetMapping("/{token}")
     public ResponseEntity<List<DatasetDto>> getFavorites(@PathVariable("token") String token) {
 
@@ -45,12 +55,42 @@ public class FavoritesController {
     }
 
     @PostMapping("/fav")
-    public ResponseEntity<ApiResponse> addFavorites(@RequestBody Datasets datasets, @RequestParam("token") String token){
-    authenticationService.authenticate(token);
-    User user = authenticationService.getUser(token);
-    Favorites favorites = new Favorites(user.getId(), datasets.getId());
-    favoritesService.createFavorites(favorites);
-    return new ResponseEntity<ApiResponse>(new ApiResponse(true, "Add to favorites"), HttpStatus.CREATED);
+//    public ResponseEntity<ApiResponse> addFavorites(@RequestBody Datasets datasets, @RequestParam("token") String token) {
+    public ResponseEntity<ApiResponse> addFavorites(String datasetName, String datasetLink, String keyword) {
+//        authenticationService.authenticate(token);
+//        System.out.println("token from addFavorites: " + token);
+//        User user = authenticationService.getUser(token);
+//        System.out.println("current user: " + user);
+
+        // Retrieve the authentication object from the security context
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        System.out.println("Authentication object: " + authentication);
+        String userEmail = authentication.getName();
+        System.out.println("user email: " + userEmail);
+
+        // Create a datasetDTO object and populate it with form fields
+        DatasetDto datasetDto = new DatasetDto();
+        datasetDto.setDataset_name(datasetName);
+        datasetDto.setUrl(datasetLink);
+        datasetDto.setKeyword(keyword);
+//        datasetDto.calculateRatingAverage();
+
+        // Create a dataset entry in the database
+        Datasets dataset = datasetsService.createDataset(datasetDto);
+        System.out.println("dataset object: " + dataset);
+
+        // Get currently logged in user
+        User user = userService.findByEmail(authentication.getName());
+        System.out.println("user object: " + user);
+        System.out.println("user.getId(): " + user.getId());
+        System.out.println("dataset.getId(): " + dataset.getId());
+
+        // Create a favorites entry in the database
+        Favorites favorites = new Favorites(user.getId(), dataset.getId());
+        System.out.println("favorites object: " + favorites);
+        favoritesService.createFavorites(favorites);
+
+        return new ResponseEntity<ApiResponse>(new ApiResponse(true, "Added to favorites"), HttpStatus.CREATED);
     }
 
 

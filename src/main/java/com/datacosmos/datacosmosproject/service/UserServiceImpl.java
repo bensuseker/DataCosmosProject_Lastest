@@ -44,7 +44,7 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     public User findByEmail(String email) {
-        return null;
+        return userRepo.findByEmail(email);
     }
     @Override
     public List<UserDto> findAllUsers() {
