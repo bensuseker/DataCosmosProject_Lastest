@@ -1,14 +1,13 @@
 package com.datacosmos.datacosmosproject.controller;
 
-import com.datacosmos.datacosmosproject.service.CrawlerService;
 import com.datacosmos.datacosmosproject.response.CrawlerResponse;
+import com.datacosmos.datacosmosproject.service.CrawlerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -57,4 +56,6 @@ public class CrawlerController {
 
         return new CrawlerResponse(stats, crawlerOutput);
     }
+
+
 }

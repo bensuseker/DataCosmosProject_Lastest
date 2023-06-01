@@ -13,13 +13,12 @@ import org.springframework.stereotype.Service;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
-//CustomUserDetailsService
 @Service
-public class CustomerUserDetailsService implements UserDetailsService {
+public class CustomUserDetailsService implements UserDetailsService {
 
     private userRepository userRepo;
 
-    public CustomerUserDetailsService(userRepository userRepo) {
+    public CustomUserDetailsService(userRepository userRepo) {
         this.userRepo = userRepo;
     }
 
@@ -34,10 +33,11 @@ public class CustomerUserDetailsService implements UserDetailsService {
             throw new UsernameNotFoundException("Invalid username or password.");
         }
     }
-    private Collection < ? extends GrantedAuthority> mapRolesToAuthorities(Collection<Role> roles) {
+    private Collection< ? extends GrantedAuthority> mapRolesToAuthorities(Collection<Role> roles) {
         Collection < ? extends GrantedAuthority> mapRoles = roles.stream()
                 .map(role -> new SimpleGrantedAuthority(role.getName()))
                 .collect(Collectors.toList());
-                 return mapRoles;
+        return mapRoles;
     }
+
 }

@@ -3,47 +3,59 @@ package com.datacosmos.datacosmosproject.Dto;
 import com.datacosmos.datacosmosproject.entities.Datasets;
 import jakarta.annotation.Nullable;
 
+
+
 public class DatasetDto {
 
-    private Integer id;
+    private Long id;
+    private String url;
+    private Double RatingAverage;
+    private Integer rating;
+    private String image;
 
-    private @Nullable String Dataset_name;
+    // Default constructor
+    public DatasetDto(){}
 
-    private @Nullable String url;
-    private Double ratingAverage;
+    // Parameterized constructor
 
-    private @Nullable String keyword;
 
-    public DatasetDto(@Nullable Integer id, @Nullable String dataset_name, String url, Double ratingAverage, String keyword) {
+    /**
+     * Parameterized constructor for the DatasetDto class.
+     * Initializes the DatasetDto object with the provided values.
+     *
+     * @param id             The ID of the dataset.
+     * @param url            The URL of the dataset.
+     * @param ratingAverage  The average rating of the dataset.
+     * @param rating         The rating of the dataset.
+     * @param image          The image associated with the dataset.
+     */
+    public DatasetDto(Long id, String url, Double ratingAverage, Integer rating, String image) {
         this.id = id;
-        this.Dataset_name = dataset_name;
         this.url = url;
-        this.ratingAverage = ratingAverage;
-        this.keyword = keyword;
+        this.RatingAverage = ratingAverage;
+        this.rating = rating;
+        this.image = image;
     }
 
+    /**
+     * Constructor for the DatasetDto class that takes a Datasets entity object.
+     * Initializes the DatasetDto object with the values from the Datasets entity.
+     *
+     * @param datasets The Datasets entity object.
+     */
     public DatasetDto(Datasets datasets){
-        this.setId(Math.toIntExact(datasets.getId()));
+        id = datasets.getId();
+        url = datasets.getUrl();
+        RatingAverage = datasets.getRatingAverage();
+
     }
 
-    public DatasetDto() {
-
-    }
-
-
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getDataset_name() {
-        return Dataset_name;
-    }
-
-    public void setDataset_name(String dataset_name) { Dataset_name = dataset_name;
     }
 
     public String getUrl() {
@@ -55,18 +67,36 @@ public class DatasetDto {
     }
 
     public Double getRatingAverage() {
-        return ratingAverage;
+        return RatingAverage;
     }
 
     public void setRatingAverage(Double ratingAverage) {
-        this.ratingAverage = ratingAverage;
+        RatingAverage = ratingAverage;
     }
 
-    public String getKeyword() {
-        return keyword;
+    public Integer getRating() {
+        return rating;
     }
 
-    public void setKeyword(String keyword) {
-        this.keyword = keyword;
+    public void setRating(Integer rating) {
+        this.rating = rating;
+    }
+
+    /**
+     * Retrieves the image associated with the dataset.
+     *
+     * @return The image associated with the dataset.
+     */
+    public String getImage() {
+        return image;
+    }
+
+    /**
+     * Sets the image associated with the dataset.
+     *
+     * @param image The image associated with the dataset.
+     */
+    public void setImage(String image) {
+        this.image = image;
     }
 }

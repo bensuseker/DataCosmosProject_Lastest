@@ -3,13 +3,17 @@ package com.datacosmos.datacosmosproject.entities;
 import com.datacosmos.datacosmosproject.Dto.DatasetDto;
 import jakarta.persistence.*;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 
+/* Datasets class is annotated with @Entity to indicate that
+*  it is a JPA entity mapped to a database table named "Datasets".
+*  It contains various attributes such as id,
+* Dataset_name, keyword, url, ratingAverage, rating, and image representing the
+*/
 
-/*This class define This class represents the website links that your website lists for the users.
-It will have properties such as title, description, URL, and so on.
-You might also want to include a method for scoring the links. */
 @Entity
 @Table(name = "Datasets")
 public class Datasets {
@@ -27,23 +31,43 @@ public class Datasets {
     @Column(name = "url", nullable = false)
     private String url;
 
-    @Column(name = "ratingAvarage", nullable = false)
+    @Column(name = "ratingAvarage")
     private Double ratingAverage;
-
     @Column(nullable = false)
     private int rating;
 
-    public Datasets(Long id, String dataset_name, String keyword, String url, Double ratingAverage, int rating) {
+    private String image;
+
+    @OneToMany(mappedBy = "dataset", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<Rating> ratings = new HashSet<>();
+
+
+    public Datasets() {
+
+    }
+
+    /**
+     * Parameterized constructor for the Datasets entity class.
+     * Initializes the Datasets object with the provided values.
+     *
+     * @param id             The ID of the dataset.
+     * @param dataset_name   The name of the dataset.
+     * @param keyword        The keyword associated with the dataset.
+     * @param url            The URL of the dataset.
+     * @param ratingAverage  The average rating of the dataset.
+     * @param rating         The rating of the dataset.
+     * @param image          The image associated with the dataset.
+     */
+
+    public Datasets(Long id, String dataset_name, String keyword, String url, Double ratingAverage,
+                    int rating, String image) {
         this.id = id;
         this.Dataset_name = dataset_name;
         this.keyword = keyword;
         this.url = url;
         this.ratingAverage = ratingAverage;
         this.rating = rating;
-    }
-
-    public Datasets() {
-
+        this.image = image;
     }
 
     public Long getId() {
@@ -94,10 +118,19 @@ public class Datasets {
         this.rating = rating;
     }
 
-    public void rating(int stars) {
-        if (stars < 1 || stars > 5) {
-            throw new IllegalArgumentException("Rating should be between 1 and 5 stars.");
-        }
-        this.rating = stars;
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public Set<Rating> getRatings() {
+        return ratings;
+    }
+
+    public void setRatings(Set<Rating> ratings) {
+        this.ratings = ratings;
     }
 }
