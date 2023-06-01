@@ -7,7 +7,12 @@ import lombok.Data;
 import java.util.Date;
 
 @Entity
-@Table(name = "Favorites")
+@Table(
+        name = "Favorites",
+        uniqueConstraints = {
+                @UniqueConstraint(columnNames = {"user_id", "dataset_id"})
+        }
+)
 @Data
 public class Favorites {
 

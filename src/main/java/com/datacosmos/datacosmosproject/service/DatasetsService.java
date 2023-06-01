@@ -3,8 +3,8 @@ package com.datacosmos.datacosmosproject.service;
 import com.datacosmos.datacosmosproject.Dto.DatasetDto;
 import com.datacosmos.datacosmosproject.entities.Datasets;
 import com.datacosmos.datacosmosproject.repository.datasetsRepository;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -17,9 +17,9 @@ public class DatasetsService {
     datasetsRepository datasetsRepo;
 
 
-    public Datasets createDataset(DatasetDto datasetDto) {
+    public Datasets createDataset(DatasetDto datasetDto) throws DataIntegrityViolationException {
         Datasets dataset = new Datasets();
-        dataset.setDataset_name(datasetDto.getDataset_name());
+        dataset.setName(datasetDto.getDataset_name());
         dataset.setKeyword(datasetDto.getKeyword());
         dataset.setUrl(datasetDto.getUrl());
         dataset.setRatingAverage(datasetDto.getRatingAverage());
@@ -28,7 +28,7 @@ public class DatasetsService {
 
     public DatasetDto getDatasetDto(Datasets datasets) {
         DatasetDto datasetDto = new DatasetDto();
-        datasets.setDataset_name(datasets.getDataset_name());
+        datasets.setName(datasets.getName());
         datasets.setKeyword(datasets.getKeyword());
         datasets.setUrl(datasets.getUrl());
         datasets.setRatingAverage(datasets.getRatingAverage());
@@ -54,5 +54,9 @@ public class DatasetsService {
 //    public void calculateRatingsAverage() {
 //        datasetsRepo.calculateAverageRating()
 //    }
+
+    public Datasets getDataset(String name, String url, String keyword) {
+        return datasetsRepo.findByNameAndUrlAndKeyword(name, url, keyword);
+    }
 
 }

@@ -1,25 +1,25 @@
 package com.datacosmos.datacosmosproject.entities;
 
-import com.datacosmos.datacosmosproject.Dto.DatasetDto;
 import jakarta.persistence.*;
-
-import java.util.List;
-
 
 
 /*This class define This class represents the website links that your website lists for the users.
 It will have properties such as title, description, URL, and so on.
 You might also want to include a method for scoring the links. */
 @Entity
-@Table(name = "Datasets")
+@Table(
+        name = "Datasets",
+        uniqueConstraints = {
+                @UniqueConstraint(columnNames = {"name", "keyword", "url"})
+        })
 public class Datasets {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "Dataset_name", nullable = false)
-    private String Dataset_name;
+    @Column(name = "name", nullable = false)
+    private String name;
 
     @Column(name = "keyword", nullable = false)
     private String keyword;
@@ -33,9 +33,9 @@ public class Datasets {
     @Column(name = "rating")
     private int rating;
 
-    public Datasets(Long id, String dataset_name, String keyword, String url, Double ratingAverage, int rating) {
+    public Datasets(Long id, String name, String keyword, String url, Double ratingAverage, int rating) {
         this.id = id;
-        this.Dataset_name = dataset_name;
+        this.name = name;
         this.keyword = keyword;
         this.url = url;
         this.ratingAverage = ratingAverage;
@@ -54,12 +54,12 @@ public class Datasets {
         this.id = id;
     }
 
-    public String getDataset_name() {
-        return Dataset_name;
+    public String getName() {
+        return name;
     }
 
-    public void setDataset_name(String dataset_name) {
-        Dataset_name = dataset_name;
+    public void setName(String datasetName) {
+        this.name = datasetName;
     }
 
     public String getKeyword() {
