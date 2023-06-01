@@ -1,26 +1,35 @@
 package com.datacosmos.datacosmosproject.controller;
 
-import com.datacosmos.datacosmosproject.entities.Rating;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import com.datacosmos.datacosmosproject.Dto.DatasetDto;
+import com.datacosmos.datacosmosproject.Dto.RatingDto;
+import com.datacosmos.datacosmosproject.service.RatingService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
-@Controller
-@RequestMapping({ "/", "/index" })
+@RestController
+@RequestMapping(value = "/scores", method = { RequestMethod.GET, RequestMethod.POST })
 public class RatingController {
 
-    @GetMapping
-    public String main(Model model) {
-        model.addAttribute("rating", new Rating());
-        return "index";
-    }
+    @Autowired
+    private RatingService ratingService;
 
-    @PostMapping
-    public String save(Rating rating, Model model) {
-        model.addAttribute("rating", rating);
-        return "saved";
-    }
+    /**
+     * Saves a rating for a dataset.
+     * Accepts a RatingDto object in the request body, representing the rating information.
+     * Calls the RatingService to save the rating and update the dataset information.
+     * Returns the updated DatasetDto object containing the updated dataset information.
+     *
+     * dto The RatingDto object containing the rating information.
+     * The DatasetDto object representing the updated dataset information.
+     */
+    // Handler method to save a rating
+    @PutMapping
+    public DatasetDto saveRating(@RequestBody RatingDto dto){
 
+        // Save the rating and get the updated dataset DTO
+        DatasetDto datasetDto = ratingService.saveRating(dto);
+
+        //Return the updated dataset DTO
+       return datasetDto;
+    }
 }

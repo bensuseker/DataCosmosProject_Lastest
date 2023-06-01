@@ -7,7 +7,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -19,12 +21,14 @@ public class Role {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(name = "id")
+    private int id;
 
-    @Column(nullable=false, unique=true)
+    @Column(name = "name", nullable=false, unique=true)
     private String name;
 
     @ManyToMany(mappedBy="roles")
     private List<User> users;
+
 
 }

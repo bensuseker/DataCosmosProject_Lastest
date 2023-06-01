@@ -2,6 +2,7 @@ package com.datacosmos.datacosmosproject.controller;
 
 import com.datacosmos.datacosmosproject.Dto.UserDto;
 import com.datacosmos.datacosmosproject.entities.User;
+import com.datacosmos.datacosmosproject.repository.datasetsRepository;
 import com.datacosmos.datacosmosproject.service.IUserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,10 +18,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 public class AuthController {
 
     private final IUserService userService;
+    private final datasetsRepository datasetRepo;
 
     @Autowired
-    public AuthController(IUserService userService) {
+    public AuthController(IUserService userService, datasetsRepository datasetRepo) {
         this.userService = userService;
+        this.datasetRepo = datasetRepo;
     }
 
     // handler method to handle home page request
@@ -29,39 +32,45 @@ public class AuthController {
         return "index";
     }
 
+    // Handler method to display the login form
+    @GetMapping("/login")
+    public String loginForm(){
+        return "login";
+    }
+
     // handler method to handle user registration form request
     @GetMapping("/register")
     public String showRegistrationForm(Model model){
         // create model object to store form data
         UserDto user = new UserDto();
         model.addAttribute("user", user);
-        return "register.html";
+        return "register";
     }
 
     // handler method to handle user registration form submit request
     @PostMapping("/register/save")
-    public String registration(@Valid @ModelAttribute("user") UserDto userDto,
+    public String registration(@Valid @ModelAttribute("user") UserDto user,
                                BindingResult result,
                                Model model){
-        User existingUser = userService.findByEmail(userDto.getEmail());
+        // Check if a user with the same email already exists
+        User existingUser = userService.findByEmail(user.getEmail());
 
-        if(existingUser != null && existingUser.getEmail() != null && !existingUser.getEmail().isEmpty()){
-            result.rejectValue("email", null,
-                    "There is already an account registered with the same email");
+        if (existingUser != null) {
+            // If there is an existing user with the same email, reject the registration
+            result.rejectValue("email", null, "There is already an account registered with that email");
         }
-
-        if(result.hasErrors()){
-            model.addAttribute("user", userDto);
-            return "register.html";
+        if (result.hasErrors()) {
+            // If there are validation errors, return to the registration form with error messages
+            model.addAttribute("user", user);
+            return "register";
         }
+        // Save the user if there are no errors
+        userService.saveUser(user);
 
-        userService.saveUser(userDto);
+        // Redirect to the registration form with a success message
         return "redirect:/register?success";
     }
-    // handler method to handle login request
-    @GetMapping("/login")
-    public String login(){
-        return "login";
-    }
+
+
 
 }
