@@ -53,7 +53,8 @@ public class FavoritesController {
 
         // Create a datasetDTO object and populate it with form fields
         DatasetDto datasetDto = new DatasetDto();
-        datasetDto.setDataset_name(datasetName);
+
+        datasetDto.setDatasetName(datasetName);
         datasetDto.setUrl(datasetLink);
         datasetDto.setKeyword(keyword);
 //        datasetDto.calculateRatingAverage();

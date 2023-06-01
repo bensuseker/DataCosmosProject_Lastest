@@ -9,10 +9,10 @@ import java.util.Set;
 
 
 /* Datasets class is annotated with @Entity to indicate that
-*  it is a JPA entity mapped to a database table named "Datasets".
-*  It contains various attributes such as id,
-* Dataset_name, keyword, url, ratingAverage, rating, and image representing the
-*/
+ *  it is a JPA entity mapped to a database table named "Datasets".
+ *  It contains various attributes such as id,
+ * Dataset_name, keyword, url, ratingAverage, rating, and image representing the
+ */
 
 /*This class define This class represents the website links that your website lists for the users.
 It will have properties such as title, description, URL, and so on.
@@ -44,31 +44,28 @@ public class Datasets {
     @Column(name = "rating")
     private int rating;
 
-    public Datasets(Long id, String name, String keyword, String url, Double ratingAverage, int rating) {
     private String image;
 
     @OneToMany(mappedBy = "dataset", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Rating> ratings = new HashSet<>();
 
-
     public Datasets() {
-
     }
 
     /**
      * Parameterized constructor for the Datasets entity class.
      * Initializes the Datasets object with the provided values.
      *
-     * @param id             The ID of the dataset.
-     * @param dataset_name   The name of the dataset.
-     * @param keyword        The keyword associated with the dataset.
-     * @param url            The URL of the dataset.
-     * @param ratingAverage  The average rating of the dataset.
-     * @param rating         The rating of the dataset.
-     * @param image          The image associated with the dataset.
+     * @param id            The ID of the dataset.
+     * @param name          The name of the dataset.
+     * @param keyword       The keyword associated with the dataset.
+     * @param url           The URL of the dataset.
+     * @param ratingAverage The average rating of the dataset.
+     * @param rating        The rating of the dataset.
+     * @param image         The image associated with the dataset.
      */
 
-    public Datasets(Long id, String dataset_name, String keyword, String url, Double ratingAverage,
+    public Datasets(Long id, String name, String keyword, String url, Double ratingAverage,
                     int rating, String image) {
         this.id = id;
         this.name = name;

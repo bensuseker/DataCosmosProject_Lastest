@@ -19,7 +19,7 @@ public class DatasetsService {
 
     public Datasets createDataset(DatasetDto datasetDto) throws DataIntegrityViolationException {
         Datasets dataset = new Datasets();
-        dataset.setName(datasetDto.getDataset_name());
+        dataset.setName(datasetDto.getDatasetName());
         dataset.setKeyword(datasetDto.getKeyword());
         dataset.setUrl(datasetDto.getUrl());
         dataset.setRatingAverage(datasetDto.getRatingAverage());
