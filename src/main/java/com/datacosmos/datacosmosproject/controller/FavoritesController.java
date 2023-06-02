@@ -7,7 +7,7 @@ import com.datacosmos.datacosmosproject.entities.Datasets;
 import com.datacosmos.datacosmosproject.entities.Favorites;
 import com.datacosmos.datacosmosproject.entities.User;
 import com.datacosmos.datacosmosproject.response.ApiResponse;
-import com.datacosmos.datacosmosproject.service.DatasetsService;
+import com.datacosmos.datacosmosproject.service.DatasetService;
 import com.datacosmos.datacosmosproject.service.FavoritesService;
 import com.datacosmos.datacosmosproject.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +34,7 @@ public class FavoritesController {
     private IUserService userService;
 
     @Autowired
-    private DatasetsService datasetsService;
+    private DatasetService datasetService;
 
     @GetMapping("")
     public List<Favorites> getFavorites() {
@@ -63,13 +63,13 @@ public class FavoritesController {
 
         // Create a dataset entry in the database or get already existing one
         try {
-            dataset = datasetsService.createDataset(datasetDto);
+            dataset = datasetService.createDataset(datasetDto);
         }
         // This exception will be raised if this dataset already exists
         catch (DataIntegrityViolationException e) {
 //            System.out.println("EXCEPTION CAUGHT!!! " + e);
             // In this case we can just get that database object from the database
-            dataset = datasetsService.getDataset(datasetName, datasetLink, keyword);
+            dataset = datasetService.getDataset(datasetName, datasetLink, keyword);
             System.out.println("Duplicate dataset exception raised, retrieved already existing dataset: " + dataset);
         }
 
