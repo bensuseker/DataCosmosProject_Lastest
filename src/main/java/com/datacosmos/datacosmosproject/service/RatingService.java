@@ -40,41 +40,47 @@ public class RatingService {
      */
     @Transactional
     public DatasetDto saveRating(RatingDto dto) {
-        // Find or create the user
+        System.out.println("Got the rating dto " + dto);
+        // Get the user object
         User user = userRepo.findByEmail(dto.getEmail());
-        if (user == null) {
-            user = new User();
-            user.setEmail(dto.getEmail());
-            user = userRepo.saveAndFlush(user);
-        }
+        System.out.println("Got the user " + user);
+
         // Find the dataset
         Datasets datasets = datasetsRepo.findById(dto.getDatasetId()).get();
+        System.out.println("Got the dataset " + datasets);
 
         // Create a new rating and associate it with the user and dataset
         Rating rating = new Rating();
         rating.setDatasets(datasets);
         rating.setUser(user);
-        rating.setValue(dto.getRatingAverage());
+        rating.setValue(dto.getRating());
+
+//        System.out.println("Set rating value to Rating object: " + rating);
 
         // Save the rating
         rating = ratingRepo.saveAndFlush(rating);
 
+        System.out.println("After saveandflush, rating: " + rating);
 
-        // Calculate the new average rating for the dataset
-        double sum = 0.0;
-        for (Rating s : datasets.getRatings()) {
-            sum = sum + s.getValue();
-        }
+        System.out.println("user.getId(): " + user.getId());
+        System.out.println("datasets.getId(): " + datasets.getId());
 
-        double avg = sum / datasets.getRatings().size();
+        // Calculate new average rating for this dataset
+        double avg = getAverageRating(datasets.getId());
 
-        // Update the dataset with the new average rating and the total number of ratings
+        System.out.println("Average calc avg: " + avg);
+
+        // Update the dataset with the new average rating and set the rating value set by this user
         datasets.setRatingAverage(avg);
-        datasets.setRating(datasets.getRatings().size());
+        datasets.setRating(rating.getValue());
 
         // Save the updated dataset
         datasets = datasetsRepo.save(datasets);
 
         return new DatasetDto(datasets);
+    }
+
+    public Double getAverageRating(Long datasetsId) {
+        return ratingRepo.calculateAverageValue(datasetsId);
     }
 }

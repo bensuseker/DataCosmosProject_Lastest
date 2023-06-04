@@ -27,9 +27,14 @@ public class RatingDto {
 
     private Long datasetId;
     private String email;
-    private Double ratingAverage;
+    private Integer rating;
 
-
-
-
+    @Override
+    public String toString() {
+        return "RatingDto{" +
+                "datasetId=" + datasetId +
+                ", email='" + email + '\'' +
+                ", rating=" + rating +
+                '}';
+    }
 }

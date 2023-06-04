@@ -19,7 +19,7 @@ public class Rating {
     @ManyToOne
     private Datasets dataset;
 
-    private Double value;
+    private int value;
 
     public Rating(){}
 
@@ -49,11 +49,11 @@ public class Rating {
         this.id = id;
     }
 
-    public Double getValue() {
+    public int getValue() {
         return value;
     }
 
-    public void setValue(Double value) {
+    public void setValue(int value) {
         this.value = value;
     }
 }
