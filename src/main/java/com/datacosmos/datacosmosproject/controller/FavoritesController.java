@@ -3,6 +3,7 @@ package com.datacosmos.datacosmosproject.controller;
 
 
 import com.datacosmos.datacosmosproject.Dto.DatasetDto;
+import com.datacosmos.datacosmosproject.Dto.FavoritesDto;
 import com.datacosmos.datacosmosproject.entities.Datasets;
 import com.datacosmos.datacosmosproject.entities.Favorites;
 import com.datacosmos.datacosmosproject.entities.User;
@@ -16,10 +17,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -37,7 +35,7 @@ public class FavoritesController {
     private DatasetService datasetService;
 
     @GetMapping("")
-    public List<Favorites> getFavorites() {
+    public List<FavoritesDto> getFavorites() {
         // Get currently logged in user
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = userService.findByEmail(authentication.getName());
@@ -47,17 +45,21 @@ public class FavoritesController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<ApiResponse> addFavorites(String datasetName, String datasetLink, String keyword) {
+    public ResponseEntity<ApiResponse> addFavorites(@RequestBody FavoritesDto dto) {
+//        System.out.println("addFavorites invoked!");
+//        System.out.println("datasetName: " + dto.getDatasetName());
+//        System.out.println("datasetLink: " + dto.getDatasetLink());
+//        System.out.println("keyword " + dto.getKeyword());
+
         // Retrieve the authentication object from the security context
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         // Create a datasetDTO object and populate it with form fields
         DatasetDto datasetDto = new DatasetDto();
 
-        datasetDto.setDatasetName(datasetName);
-        datasetDto.setUrl(datasetLink);
-        datasetDto.setKeyword(keyword);
-//        datasetDto.calculateRatingAverage();
+        datasetDto.setDatasetName(dto.getDatasetName());
+        datasetDto.setUrl(dto.getDatasetLink());
+        datasetDto.setKeyword(dto.getKeyword());
 
         Datasets dataset;
 
@@ -67,9 +69,9 @@ public class FavoritesController {
         }
         // This exception will be raised if this dataset already exists
         catch (DataIntegrityViolationException e) {
-//            System.out.println("EXCEPTION CAUGHT!!! " + e);
+            System.out.println("EXCEPTION CAUGHT!!! " + e);
             // In this case we can just get that database object from the database
-            dataset = datasetService.getDataset(datasetName, datasetLink, keyword);
+            dataset = datasetService.getDataset(dto.getDatasetName(), dto.getDatasetLink(), dto.getKeyword());
             System.out.println("Duplicate dataset exception raised, retrieved already existing dataset: " + dataset);
         }
 
@@ -90,9 +92,27 @@ public class FavoritesController {
         // This exception will be raised if this favorite already exists
         catch (DataIntegrityViolationException e) {
             System.out.println("Duplicate favorite exception raised: " + e);
-            return new ResponseEntity<ApiResponse>(new ApiResponse(true, "This dataset is already added as a favorite for this user"), HttpStatus.CREATED);
+            return new ResponseEntity<ApiResponse>(new ApiResponse(true, "This dataset is already added as a favorite for this user"), HttpStatus.BAD_REQUEST);
         }
 
         return new ResponseEntity<ApiResponse>(new ApiResponse(true, "Added to favorites"), HttpStatus.CREATED);
+    }
+
+    @PostMapping("/delete")
+    public ResponseEntity<ApiResponse> deleteFavorites(@RequestBody FavoritesDto dto) {
+        // Get user
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user = userService.findByEmail(authentication.getName());
+
+        Long userId = user.getId();
+        Long datasetId = dto.getDatasetId();
+
+        boolean deleted = favoritesService.deleteFavorites(userId, datasetId);
+        if (deleted) {
+            return new ResponseEntity<ApiResponse>(new ApiResponse(true, "Deleted datasetId: " + datasetId + ", from your favorites"), HttpStatus.OK);
+        }
+        else {
+            return new ResponseEntity<ApiResponse>(new ApiResponse(true, "Invalid datasetId: that datasetId was not found in your favorites"), HttpStatus.BAD_REQUEST);
+        }
     }
 }

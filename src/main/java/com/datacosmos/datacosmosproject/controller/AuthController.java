@@ -3,9 +3,12 @@ package com.datacosmos.datacosmosproject.controller;
 import com.datacosmos.datacosmosproject.Dto.UserDto;
 import com.datacosmos.datacosmosproject.entities.User;
 import com.datacosmos.datacosmosproject.repository.datasetsRepository;
+import com.datacosmos.datacosmosproject.response.ApiResponse;
 import com.datacosmos.datacosmosproject.service.IUserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -36,6 +39,11 @@ public class AuthController {
     @GetMapping("/login")
     public String loginForm(){
         return "login";
+    }
+
+    @GetMapping("/login/success")
+    public ResponseEntity<ApiResponse> loginSuccess() {
+        return new ResponseEntity<ApiResponse>(new ApiResponse(true, "Welcome! You are logged in."), HttpStatus.OK);
     }
 
     // handler method to handle user registration form request

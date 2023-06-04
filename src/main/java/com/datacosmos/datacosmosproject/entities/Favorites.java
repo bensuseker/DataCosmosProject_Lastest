@@ -47,8 +47,8 @@ public class Favorites {
 
     @Column(name = "created_date")
     private Date createdDate;
-
-    @ManyToOne(cascade = CascadeType.ALL)
+    
+    @ManyToOne
     @JoinColumn(name = "dataset_id", referencedColumnName = "id", insertable = false, updatable = false)
     private Datasets datasets;
 

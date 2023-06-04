@@ -10,4 +10,5 @@ import java.util.List;
 @Repository
 public interface favoritesRepository extends JpaRepository<Favorites, Integer> {
     List<Favorites> findAllByUserIdOrderByCreatedDateDesc(Long userId);
+    Favorites findByUserIdAndDatasetId(Long userId, Long datasetId);
 }
