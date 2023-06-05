@@ -4,6 +4,7 @@ import com.datacosmos.datacosmosproject.Dto.DatasetDto;
 import com.datacosmos.datacosmosproject.entities.Datasets;
 import com.datacosmos.datacosmosproject.repository.datasetsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -47,6 +48,48 @@ public class DatasetService {
         Datasets result = datasetsRepo.findById(id).get();
         DatasetDto dto = new DatasetDto(result);
         return dto;
+    }
+
+    /**
+     * Creates a dataset and inserts it into the database.
+     *
+     * @param datasetDto the DatasetDto object
+     * @return The Datasets entity object from the database.
+     */
+    public Datasets createDataset(DatasetDto datasetDto) throws DataIntegrityViolationException {
+        Datasets dataset = new Datasets();
+        dataset.setName(datasetDto.getDatasetName());
+        dataset.setKeyword(datasetDto.getKeyword());
+        dataset.setUrl(datasetDto.getUrl());
+        dataset.setRatingAverage(datasetDto.getRatingAverage());
+        return datasetsRepo.save(dataset);
+    }
+
+    /**
+     * Creates a dataset and inserts it into the database.
+     *
+     * @param dataset the dataset object we want a Dto object for
+     * @return the datasetDto object associated with the given dataset.
+     */
+    public DatasetDto getDatasetDto(Datasets dataset) {
+        DatasetDto datasetDto = new DatasetDto();
+        dataset.setName(dataset.getName());
+        dataset.setKeyword(dataset.getKeyword());
+        dataset.setUrl(dataset.getUrl());
+        dataset.setRatingAverage(dataset.getRatingAverage());
+        return datasetDto;
+    }
+
+    /**
+     * Finds a dataset from the database based on name, url and keyword.
+     *
+     * @param name the name of the dataset we want
+     * @param url the url of the dataset we want
+     * @param keyword the keyword of the dataset we want
+     * @return the datasetDto object associated with the given dataset.
+     */
+    public Datasets getDataset(String name, String url, String keyword) {
+        return datasetsRepo.findByNameAndUrlAndKeyword(name, url, keyword);
     }
 
 }

@@ -6,6 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface datasetsRepository extends JpaRepository<Datasets, Long> {
-
-
+    Datasets findByNameAndUrlAndKeyword(String Dataset_name, String url, String keyword);
 }

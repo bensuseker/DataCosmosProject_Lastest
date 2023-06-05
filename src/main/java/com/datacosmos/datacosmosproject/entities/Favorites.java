@@ -1,7 +1,7 @@
 package com.datacosmos.datacosmosproject.entities;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 import java.util.Date;
@@ -25,7 +25,12 @@ import java.util.Date;
 */
 
 @Entity
-@Table(name = "Favorites")
+@Table(
+        name = "Favorites",
+        uniqueConstraints = {
+                @UniqueConstraint(columnNames = {"user_id", "dataset_id"})
+        }
+)
 @Data
 public class Favorites {
 
@@ -34,16 +39,16 @@ public class Favorites {
     private Integer id;
 
     @Column(name = "user_id")
-    private @NotBlank Long userId;
+    private @NotNull Long userId;
 
     @Column(name = "dataset_id")
-    private @NotBlank Long datasetId;
+    private @NotNull Long datasetId;
 
 
     @Column(name = "created_date")
     private Date createdDate;
-
-    @ManyToOne(cascade = CascadeType.ALL)
+    
+    @ManyToOne
     @JoinColumn(name = "dataset_id", referencedColumnName = "id", insertable = false, updatable = false)
     private Datasets datasets;
 

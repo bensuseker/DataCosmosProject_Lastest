@@ -8,6 +8,8 @@ import jakarta.annotation.Nullable;
 public class DatasetDto {
 
     private Long id;
+    private String datasetName;
+    private String keyword;
     private String url;
     private Double RatingAverage;
     private Integer rating;
@@ -29,8 +31,10 @@ public class DatasetDto {
      * @param rating         The rating of the dataset.
      * @param image          The image associated with the dataset.
      */
-    public DatasetDto(Long id, String url, Double ratingAverage, Integer rating, String image) {
+    public DatasetDto(Long id, String datasetName, String keyword, String url, Double ratingAverage, Integer rating, String image) {
         this.id = id;
+        this.datasetName = datasetName;
+        this.keyword = keyword;
         this.url = url;
         this.RatingAverage = ratingAverage;
         this.rating = rating;
@@ -43,11 +47,28 @@ public class DatasetDto {
      *
      * @param datasets The Datasets entity object.
      */
-    public DatasetDto(Datasets datasets){
-        id = datasets.getId();
-        url = datasets.getUrl();
-        RatingAverage = datasets.getRatingAverage();
+    public DatasetDto(Datasets datasets) {
+        this.id = datasets.getId();
+        this.datasetName = datasets.getName();
+        this.keyword = datasets.getKeyword();
+        this.url = datasets.getUrl();
+        this.RatingAverage = datasets.getRatingAverage();
+    }
 
+    public String getDatasetName() {
+        return datasetName;
+    }
+
+    public void setDatasetName(String datasetName) {
+        this.datasetName = datasetName;
+    }
+
+    public String getKeyword() {
+        return keyword;
+    }
+
+    public void setKeyword(String keyword) {
+        this.keyword = keyword;
     }
 
     public Long getId() {
